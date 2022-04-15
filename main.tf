@@ -37,7 +37,6 @@ provider "helm" {
 }
 
 locals {
-  kube_config_orig = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
-  kube_config = base64decode(kube_config_orig)
+  kube_config = base64decode(yamldecode(data.terraform_remote_state.iksws.outputs.kube_config))
 }
 
