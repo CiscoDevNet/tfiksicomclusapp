@@ -29,7 +29,11 @@ resource helm_release helloiksfrtfcb {
 
 provider "helm" {
   kubernetes {
-    host = local.host
+    #host = local.host
+    #client_certificate = base64decode(local.kube_config.users[0].user.client-certificate-data)
+    #client_key = base64decode(local.kube_config.users[0].user.client-key-data)
+    #cluster_ca_certificate = base64decode(local.kube_config.clusters[0].cluster.certificate-authority-data)
+host = local.kube_config.clusters[0].cluster.server
     client_certificate = base64decode(local.kube_config.users[0].user.client-certificate-data)
     client_key = base64decode(local.kube_config.users[0].user.client-key-data)
     cluster_ca_certificate = base64decode(local.kube_config.clusters[0].cluster.certificate-authority-data)
@@ -41,7 +45,8 @@ output "host" {
 }
 
 locals {
-  kube_config = yamldecode(base64decode(data.terraform_remote_state.iksws.outputs.kube_config))
-  host = yamldecode(base64decode(data.terraform_remote_state.iksws.outputs.kube_config)).clusters[0].cluster.server
+  #kube_config = yamldecode(base64decode(data.terraform_remote_state.iksws.outputs.kube_config))
+  #host = yamldecode(base64decode(data.terraform_remote_state.iksws.outputs.kube_config)).clusters[0].cluster.server
+  kube_config = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
 }
 
