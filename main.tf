@@ -41,7 +41,7 @@ host = local.kube_config.clusters[0].cluster.server
 }
 
 output "host" {
-   value = local.host
+   value = local.kube_config.clusters[0].cluster.server
 }
 
 locals {
